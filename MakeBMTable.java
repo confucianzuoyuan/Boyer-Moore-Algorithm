@@ -1,21 +1,3 @@
-/// aokako
-/// kokako
-
-///  akako
-/// kokako
-
-///   aako
-/// kokako
-
-///    ako
-/// kokako
-
-///     ao
-/// kokako
-
-///      a
-/// kokako
-
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -25,6 +7,7 @@ import java.util.TreeSet;
 public class MakeBMTable {
     public static int strong_good_suffix(char[] pattern, char[] text) {
         /// 寻找text的后缀同时是pattern前缀这个子字符串的长度
+        /// 这个是“强”好后缀规则
         int maxLen = 0;
 
         for (int prefixLen = 1; prefixLen <= pattern.length; prefixLen++) {
@@ -59,6 +42,23 @@ public class MakeBMTable {
         if (j == -1) {
             return 0;
         }
+
+        ///       gull
+        ///        |
+        ///      gull
+        /// ul <=====> gull
+        /// 使用“弱”好后缀原则，也就是BM算法的原始版本
+        /// 因为maxLen == 0且ul是gull的子串
+        if (maxLen == 0 && text.length > 1) {
+            var textString = String.valueOf(text);
+            var patternString = String.valueOf(pattern);
+            var idx = patternString.indexOf(textString);
+            if (idx != -1) {
+                return text.length;
+            }
+        }
+
+
 
         /// 处理 a <====> kokako
         if (pattern[pattern.length - 1] != text[text.length - 1]) {
